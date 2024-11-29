@@ -6,6 +6,8 @@ use App\Repository\VinylMixRepository;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -14,9 +16,13 @@ use function Symfony\Component\String\u;
 class VinylController extends AbstractController
 {
     public function __construct(
-        private bool $isDebug
+        #[Autowire(param: 'kernel.debug')]
+        private bool $isDebug,
+        #[AutowireIterator('console.command')]
+        private iterable $commands,
     )
-    {}
+    {
+    }
 
     #[Route('/', name: 'app_homepage')]
     public function homepage(): Response
