@@ -10,6 +10,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Attribute\Route;
 use function Symfony\Component\String\u;
 
@@ -25,8 +26,14 @@ class VinylController extends AbstractController
     }
 
     #[Route('/', name: 'app_homepage')]
-    public function homepage(): Response
+    public function homepage(
+        #[MapQueryParameter] string $query = '',
+        #[MapQueryParameter] int $page = 1,
+        #[MapQueryParameter(options: ['min_range' => 1, 'max_range' => 10])] int $limit = 10,
+        #[MapQueryParameter] array $filters = [],
+    ): Response
     {
+        dump($query, $page, $limit, $filters);
         $tracks = [
             ['song' => 'Gangsta\'s Paradise', 'artist' => 'Coolio'],
             ['song' => 'Waterfalls', 'artist' => 'TLC'],
