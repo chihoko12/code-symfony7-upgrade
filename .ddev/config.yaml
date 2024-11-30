@@ -1,4 +1,4 @@
-name: symfony6.4
+name: symfony7
 type: php
 docroot: public
 php_version: "8.3"
